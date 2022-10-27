@@ -1,0 +1,33 @@
+input_data_path: "data/raw/train.csv"
+output_proccessed_data_path: "data/processed/train.csv"
+output_model_path: "models/1.0-GaussianNB.pkl"
+metric_path: "models/1.0-metrics.json"
+downloading_params:
+  s3_bucket: for-dvc
+  paths:
+    - train.csv
+    - test.csv
+  output_folder: "data/raw/"
+splitting_params:
+  val_size: 0.3
+  random_state: 46
+train_params:
+  model_type: "GaussianNB"
+feature_params:
+  numerical_features:
+    - "age"
+    - "sex"
+    - "cp"
+    - "trestbps"
+    - "chol"
+    - "restecg"
+    - "thalach"
+    - "exang"
+    - "oldpeak"
+    - "slope"
+    - "ca"
+    - "thal"
+  features_to_drop:
+    - "fbs"
+  target_col: "condition"
+
