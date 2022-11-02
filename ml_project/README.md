@@ -10,10 +10,14 @@ HW1 Technopark MLOps
 ## Инструкция по запуску обучения.
 
 1. Кладем датасет в папку data/raw
-2. Правим конфиг в train_config.yaml. Указываем параметры для запуска
+2. Правим конфиг в train_config.yaml. Указываем необходимые параметры для запуска
 3. Вводим в корневой папке `make train`
 
-## 
+## Инструкция по использованию готовых моделей.
+
+1. Кладем датасет в папку data/raw
+2. Правим конфиг в train_config.yaml. Указываем параметры для запуска
+3. Вводим в корневой папке `make predict`
 
 Project Organization
 ------------
@@ -77,4 +81,3 @@ Project Organization
 
 --------
 
-<p><small>Project based on the <a target="_blank" href="https://drivendata.github.io/cookiecutter-data-science/">cookiecutter data science project template</a>. #cookiecutterdatascience</small></p>
