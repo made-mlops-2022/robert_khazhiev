@@ -1,13 +1,15 @@
-import numpy as np
 import pandas as pd
 import pickle
 from sklearn.naive_bayes import GaussianNB
 from sklearn.ensemble import GradientBoostingClassifier
-from typing import Dict, Union
+from typing import Union
+from sklearn.pipeline import Pipeline
+from sklearn.compose import ColumnTransformer
 
 from src.enities.train_params import TrainingParams
 
 SklearnClassifierModel = Union[GaussianNB, GradientBoostingClassifier]
+
 
 def train_model_func(
     features: pd.DataFrame, target: pd.Series, train_params: TrainingParams
@@ -23,7 +25,14 @@ def train_model_func(
     model.fit(features, target)
     return model
 
+
 def serialize_model(model: object, output: str) -> str:
     with open(output, "wb") as f:
         pickle.dump(model, f)
     return output
+
+
+def create_inference_pipeline(
+    model, transformer: ColumnTransformer
+) -> Pipeline:
+    return Pipeline([("feature_part", transformer), ("model_part", model)])

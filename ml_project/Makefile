@@ -103,7 +103,7 @@ test_environment:
 # 	* print line
 # Separate expressions are necessary because labels cannot be delimited by
 # semicolon; see <http://stackoverflow.com/a/11799865/1968>
-.PHONY: help make_dataset train
+.PHONY: help make_dataset train predict test coverage
 help:
 	@echo "$$(tput bold)Available rules:$$(tput sgr0)"
 	@echo
@@ -148,3 +148,12 @@ make_dataset:
 
 train:
 	python -m src.train_pipeline ./configs/train_config.yaml
+
+predict:
+	python -m src.predict_pipeline ./configs/predict_config.yaml
+
+test:
+	python -m coverage run -m unittest -v src.tests.test_features_utils src.tests.test_pipelines
+
+coverage:
+	python -m coverage report

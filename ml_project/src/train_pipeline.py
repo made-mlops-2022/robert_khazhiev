@@ -1,11 +1,8 @@
 import json
 import logging
-import os
 import sys
-from pathlib import Path
 
 import click
-import pandas as pd
 from src.data.make_dataset import process_data
 
 from src.data import read_data, split_train_val_data, download_data_from_s3
@@ -13,18 +10,18 @@ from src.enities.train_pipeline_params import (
     TrainingPipelineParams,
     read_training_pipeline_params,
 )
-#from src.features import make_features
-#TODO: Check it!!
+from src.features import make_features, build_transformer
+
 from src.features.build_features import extract_target
 from src.models import (
     train_model_func,
     serialize_model,
     predict_model_func,
-    evaluate_model
+    evaluate_model,
+    create_inference_pipeline
 )
 import mlflow
 
-#from src.models.model_fit_predict import create_inference_pipeline
 
 logger = logging.getLogger(__name__)
 handler = logging.StreamHandler(sys.stdout)
@@ -58,35 +55,42 @@ def run_train_pipeline(training_pipeline_params: TrainingPipelineParams):
     #             path,
     #             os.path.join(downloading_params.output_folder, Path(path).name),
     #         )
-    #TODO: S3 support
+    # TODO: S3 support
 
     logger.info(f"start train pipeline with params {training_pipeline_params}")
-    process_data(training_pipeline_params.input_data_path, training_pipeline_params.output_proccessed_data_path, training_pipeline_params.feature_params)
+    transformer = process_data(training_pipeline_params.input_data_path,
+                               training_pipeline_params.output_proccessed_data_path, training_pipeline_params.feature_params)
     data = read_data(training_pipeline_params.output_proccessed_data_path)
     logger.info(f"data.shape is {data.shape}")
     train_df, val_df = split_train_val_data(
         data, training_pipeline_params.splitting_params
     )
 
-    val_target = extract_target(val_df, training_pipeline_params.feature_params)
-    train_target = extract_target(train_df, training_pipeline_params.feature_params)
-    train_df = train_df.drop(training_pipeline_params.feature_params.target_col, 1)
+    val_target = extract_target(
+        val_df, training_pipeline_params.feature_params)
+    train_target = extract_target(
+        train_df, training_pipeline_params.feature_params)
+    train_df = train_df.drop(
+        training_pipeline_params.feature_params.target_col, 1)
     val_df = val_df.drop(training_pipeline_params.feature_params.target_col, 1)
 
     logger.info(f"train_df.shape is {train_df.shape}")
     logger.info(f"val_df.shape is {val_df.shape}")
-    # transformer = build_transformer(training_pipeline_params.feature_params)
-    # transformer.fit(train_df)
-    # train_features = make_features(transformer, train_df)
-    # logger.info(f"train_features.shape is {train_features.shape}")
+
+    transformer = build_transformer(training_pipeline_params.feature_params)
+    transformer.fit(train_df)
+    train_features = make_features(transformer, train_df)
+
+    logger.info(f"train_features.shape is {train_features.shape}")
+
     # TODO: make your transformer
     model = train_model_func(
-        train_df, train_target, training_pipeline_params.train_params
+        train_features, train_target, training_pipeline_params.train_params
     )
 
-    # inference_pipeline = create_inference_pipeline(model, transformer)
+    inference_pipeline = create_inference_pipeline(model, transformer)
     predicts = predict_model_func(
-        model,
+        inference_pipeline,
         val_df
     )
     metrics = evaluate_model(
@@ -100,7 +104,7 @@ def run_train_pipeline(training_pipeline_params: TrainingPipelineParams):
     logger.info(f"metrics is {metrics}")
 
     path_to_model = serialize_model(
-        model, training_pipeline_params.output_model_path
+        inference_pipeline, training_pipeline_params.output_model_path
     )
     return path_to_model, metrics
 

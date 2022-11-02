@@ -5,11 +5,13 @@ from sklearn.pipeline import Pipeline
 from sklearn.metrics import f1_score, accuracy_score, recall_score, precision_score
 from typing import Dict
 
+
 def predict_model_func(
     model: Pipeline, features: pd.DataFrame
 ) -> np.ndarray:
     predicts = model.predict(features)
     return predicts
+
 
 def evaluate_model(
     predicts: np.ndarray, target: pd.Series
@@ -20,6 +22,7 @@ def evaluate_model(
         "precision": precision_score(target, predicts),
         "accuracy": accuracy_score(target, predicts)
     }
+
 
 def deserialize_model(input: str) -> object:
     with open(input, 'rb') as f:

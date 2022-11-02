@@ -3,6 +3,18 @@ homework1
 
 HW1 Technopark MLOps
 
+## Установка
+1. clone repo
+2. `pip install -e .`
+
+## Инструкция по запуску обучения.
+
+1. Кладем датасет в папку data/raw
+2. Правим конфиг в train_config.yaml. Указываем параметры для запуска
+3. Вводим в корневой папке `make train`
+
+## 
+
 Project Organization
 ------------
 
@@ -10,14 +22,17 @@ Project Organization
     ├── Makefile           <- Makefile with commands like `make data` or `make train`
     ├── README.md          <- The top-level README for developers using this project.
     ├── data
-    │   ├── external       <- Data from third party sources.
-    │   ├── interim        <- Intermediate data that has been transformed.
     │   ├── processed      <- The final, canonical data sets for modeling.
     │   └── raw            <- The original, immutable data dump.
     │
+    |── configs
+    |   |── predict_config.yaml
+    |   └── train_config.yaml
+    |
     ├── docs               <- A default Sphinx project; see sphinx-doc.org for details
     │
-    ├── models             <- Trained and serialized models, model predictions, or model summaries
+    ├── models             <- Trained and serialized models
+        |── predictions    <- Model predictions
     │
     ├── notebooks          <- Jupyter notebooks. Naming convention is a number (for ordering),
     │                         the creator's initials, and a short `-` delimited description, e.g.
@@ -38,6 +53,8 @@ Project Organization
     │   ├── data           <- Scripts to download or generate data
     │   │   └── make_dataset.py
     │   │
+    |   |── enties         <- Enties of project (dataclasses)
+    |   |
     │   ├── features       <- Scripts to turn raw data into features for modeling
     │   │   └── build_features.py
     │   │
@@ -45,6 +62,12 @@ Project Organization
     │   │   │                 predictions
     │   │   ├── predict_model.py
     │   │   └── train_model.py
+    |   |   
+    |   |── tests          <- Tests
+    |   |
+    |   |── predict_pipeline.py
+    |   |
+    |   |── train_pipeline.py
     │   │
     │   └── visualization  <- Scripts to create exploratory and results oriented visualizations
     │       └── visualize.py

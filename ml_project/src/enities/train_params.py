@@ -8,4 +8,3 @@ class TrainingParams:
     n_estimators: int = field(default=200)
     max_depth: int = field(default=1)
     lr: float = field(default=1e-1)
-

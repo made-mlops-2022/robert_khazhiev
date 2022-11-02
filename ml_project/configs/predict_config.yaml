@@ -1,20 +1,13 @@
-input_data_path: "data/raw/train.csv"
-output_proccessed_data_path: "data/processed/train.csv"
-output_model_path: "models/1.0-GradBoost.pkl"
-metric_path: "models/1.0-metricsGradBoost.json"
+input_data_path: "data/raw/test.csv"
+output_proccessed_data_path: "data/processed/test.csv"
+input_model_path: "models/1.0-GradBoost.pkl"
+output_predict_path: "models/predictions/1.0-GradBoost_predict_1.csv"
 downloading_params:
   s3_bucket: for-dvc
   paths:
     - train.csv
     - test.csv
   output_folder: "data/raw/"
-splitting_params:
-  val_size: 0.3
-  random_state: 46
-train_params:
-  model_type: "GradientBoostingClassifier"
-  random_state: 45
-  n_estimators: 250
 feature_params:
   numerical_features:
     - "age"
@@ -32,4 +25,3 @@ feature_params:
   features_to_drop:
     - "fbs"
   target_col: "condition"
-
