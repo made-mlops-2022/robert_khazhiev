@@ -43,7 +43,6 @@ htmlcov/
 nosetests.xml
 coverage.xml
 *.cover
-.pytest_cache
 
 # Translations
 *.mo
@@ -89,3 +88,11 @@ target/
 
 # Mypy cache
 .mypy_cache/
+
+# Github files
+.github
+.git
+.gitignore
+LICENSE
+README.md
+
