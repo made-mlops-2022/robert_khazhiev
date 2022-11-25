@@ -1,0 +1,27 @@
+input_data_path: "data/raw/test.csv"
+output_proccessed_data_path: "data/processed/test.csv"
+input_model_path: "models/1.0-GradBoost.pkl"
+output_predict_path: "models/predictions/1.0-GradBoost_predict_1.csv"
+downloading_params:
+  s3_bucket: for-dvc
+  paths:
+    - train.csv
+    - test.csv
+  output_folder: "data/raw/"
+feature_params:
+  numerical_features:
+    - "age"
+    - "sex"
+    - "cp"
+    - "trestbps"
+    - "chol"
+    - "restecg"
+    - "thalach"
+    - "exang"
+    - "slope"
+    - "ca"
+    - "thal"
+  feature_to_normilize: "oldpeak"
+  features_to_drop:
+    - "fbs"
+  target_col: "condition"

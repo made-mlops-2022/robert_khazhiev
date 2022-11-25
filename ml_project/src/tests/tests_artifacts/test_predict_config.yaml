@@ -1,0 +1,21 @@
+input_data_path: "data/raw/generated_predict_temp_data.csv"
+output_proccessed_data_path: "data/processed/generated_predict_temp_data.csv"
+input_model_path: "models/temp_test_model.pkl"
+output_predict_path: "models/predictions/temp_test_predictions.csv"
+feature_params:
+  numerical_features:
+    - "age"
+    - "sex"
+    - "cp"
+    - "trestbps"
+    - "chol"
+    - "restecg"
+    - "thalach"
+    - "exang"
+    - "slope"
+    - "ca"
+    - "thal"
+  feature_to_normilize: "oldpeak"
+  features_to_drop:
+    - "fbs"
+  target_col: "condition"

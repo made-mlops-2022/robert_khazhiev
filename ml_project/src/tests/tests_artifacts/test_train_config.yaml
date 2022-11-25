@@ -1,0 +1,29 @@
+input_data_path: "data/raw/generated_train_temp_data.csv"
+output_proccessed_data_path: "data/processed/generated_train_temp_data.csv"
+output_model_path: "models/temp_test_model.pkl"
+metric_path: "models/temp_test_metrics.json"
+splitting_params:
+  val_size: 0.3
+  random_state: 46
+train_params:
+  model_type: "GradientBoostingClassifier"
+  random_state: 45
+  n_estimators: 250
+feature_params:
+  numerical_features:
+    - "age"
+    - "sex"
+    - "cp"
+    - "trestbps"
+    - "chol"
+    - "restecg"
+    - "thalach"
+    - "exang"
+    - "slope"
+    - "ca"
+    - "thal"
+  feature_to_normilize: "oldpeak"
+  features_to_drop:
+    - "fbs"
+  target_col: "condition"
+
